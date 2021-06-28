@@ -1,11 +1,14 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import WordCard from "./WordCard";
 import { Link } from "react-router-dom";
+import { loadWordsFB } from "./redux/module/words";
 
 const Home = () => {
-  const words = useSelector((state) => state.words.word_list);
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(loadWordsFB()), []);
 
+  const words = useSelector((state) => state.words.word_list);
   return (
     <div>
       <h1>My Dictionary</h1>

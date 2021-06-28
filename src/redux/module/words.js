@@ -13,33 +13,40 @@ const DELETE = "word/DELETE";
 // 초기값
 
 const initialState = {
-  word_list: [
-    {
-      // date, completed 추가 예정
-      word: "航海",
-      pinyin: "hánghǎi",
-      definition: "항해(하다)",
-      example_cn: "他爷爷是一位有经验的航海家。",
-      example_ko: "그의 할아버지는 경험이 많은 항해사이시다.",
-      id: 0,
-    },
-  ],
+  word_list: [],
   //mode 추가 예정
 };
 
 // 액션함수
 
-export const loadWords = () => ({ type: LOAD });
+export const loadWords = (words) => ({ type: LOAD, words });
 export const addWord = (word) => ({ type: ADD, word });
 export const modifyWord = (word) => ({ type: MODIFY, word });
 export const deleteWord = (id) => ({ type: DELETE, id });
+
+export const loadWordsFB = () => {
+  return function (dispatch) {
+    let words = [];
+    words_db
+      .get()
+      .then((docs) =>
+        docs.forEach((doc) => {
+          if (doc.exists) words = [...words, { id: doc.id, ...doc.data() }];
+        })
+      )
+      .then((res) => dispatch(loadWords(words)));
+  };
+};
 
 // 리듀서
 
 function words(state = initialState, action) {
   switch (action.type) {
     case "words/LOAD":
-      return;
+      return {
+        ...state,
+        word_list: action.words,
+      };
     case "word/ADD":
       let added_words = [...state.word_list, action.word];
       return {
