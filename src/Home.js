@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import WordCard from "./WordCard";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const words = useSelector((state) => state.words.word_list);
@@ -13,7 +14,7 @@ const Home = () => {
           <WordCard key={word.id} word_obj={word} />
         ))}
       </div>
-      <button type="button">+</button>
+      <Link to="/word/add">+</Link>
     </div>
   );
 };
