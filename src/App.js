@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Switch, Route } from "react-router-dom";
+import { loadWordsFB } from "./redux/module/words";
 import Home from "./Home";
 import Add from "./Add";
-import { Switch, Route } from "react-router-dom";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(loadWordsFB()), [dispatch]);
   return (
     <div className="App">
       <Route path="/" exact component={Home} />
