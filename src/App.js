@@ -4,12 +4,14 @@ import { Switch, Route } from "react-router-dom";
 import { loadWordsFB } from "./redux/module/words";
 import Home from "./Home";
 import Add from "./Add";
+import Header from "./Header";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => dispatch(loadWordsFB()), [dispatch]);
   return (
     <div className="App">
+      <Header />
       <Route path="/" exact component={Home} />
       <Route path="/word/add" component={Add} />
       {/* <Route path="/word/:id/modify" component={Modify} />*/}

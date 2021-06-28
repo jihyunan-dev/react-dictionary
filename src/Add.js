@@ -34,7 +34,7 @@ const Add = (props) => {
 
   return (
     <div>
-      <h1>단어 추가하기</h1>
+      <h2>단어 추가하기</h2>
       <form onSubmit={submitWord}>
         <CustomInput title="단어" idText="input-word" ref={wordRef} />
         <CustomInput title="병음" idText="input-pinyin" ref={pinyinRef} />
