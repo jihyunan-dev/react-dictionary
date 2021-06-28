@@ -1,3 +1,7 @@
+import { firestore } from "../../firebase";
+
+const words_db = firestore.collection("words");
+
 // 액션
 // const CHANGE_MODE = "words/CHANGE_MODE";
 const LOAD = "words/LOAD";
@@ -11,6 +15,7 @@ const DELETE = "word/DELETE";
 const initialState = {
   word_list: [
     {
+      // date, completed 추가 예정
       word: "航海",
       pinyin: "hánghǎi",
       definition: "항해(하다)",
@@ -19,6 +24,7 @@ const initialState = {
       id: 0,
     },
   ],
+  //mode 추가 예정
 };
 
 // 액션함수
