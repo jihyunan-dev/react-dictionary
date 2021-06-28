@@ -1,18 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import WordCard from "./WordCard";
 
 const Home = () => {
-  const initialWords = [
-    {
-      word: "航海",
-      pinyin: "hánghǎi",
-      definition: "항해(하다)",
-      example_cn: "他爷爷是一位有经验的航海家。",
-      example_ko: "그의 할아버지는 경험이 많은 항해사이시다.",
-      id: 0,
-    },
-  ];
-  const [words, setWords] = useState(initialWords);
+  const words = useSelector((state) => state.words.word_list);
 
   return (
     <div>
