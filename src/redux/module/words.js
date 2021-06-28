@@ -38,6 +38,18 @@ export const loadWordsFB = () => {
   };
 };
 
+export const addWordFB = (word) => {
+  return function (dispatch) {
+    let new_word;
+    words_db
+      .add(word)
+      .then((doc) => {
+        new_word = { ...word, id: doc.id };
+      })
+      .then((res) => dispatch(addWord(new_word)));
+  };
+};
+
 // 리듀서
 
 function words(state = initialState, action) {

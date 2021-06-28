@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { addWord } from "./redux/module/words";
+import { addWordFB } from "./redux/module/words";
 import CustomInput from "./CustomInput";
 
 const Add = (props) => {
@@ -11,9 +11,8 @@ const Add = (props) => {
   const exCnRef = useRef(null);
   const exKoRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  const submitWord = (e) => {
     e.preventDefault();
-    // 이후 dispatch를 사용하여 db 및 store에 저장(add)하는 기능으로 만들기
     const word = wordRef.current.value.trim();
     const pinyin = pinyinRef.current.value.trim();
     const definition = defRef.current.value.trim();
@@ -26,16 +25,17 @@ const Add = (props) => {
       definition,
       example_cn,
       example_ko: example_ko ? example_ko : null,
+      date: new Date(),
     };
 
-    dispatch(addWord(word_obj));
+    dispatch(addWordFB(word_obj));
     props.history.push("/");
   };
 
   return (
     <div>
       <h1>단어 추가하기</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={submitWord}>
         <CustomInput title="단어" idText="input-word" ref={wordRef} />
         <CustomInput title="병음" idText="input-pinyin" ref={pinyinRef} />
         <CustomInput title="의미" idText="input-def" ref={defRef} />
