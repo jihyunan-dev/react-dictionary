@@ -22,8 +22,9 @@ const Card = styled.article`
     return css`
       width: 100%;
       padding: 20px;
-      border: 2px solid ${colors.mint};
+      border: 2px solid ${colors.mainColor};
       border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.4);
       transition: box-shadow 300ms ease-in-out;
 
       ${device.tablet} {
