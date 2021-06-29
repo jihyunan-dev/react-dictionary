@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
+import Background from "./img/double-bubble-outline.png";
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -16,6 +17,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    min-height: 100vh - 60px;
+    background-image: url(${Background});
     font-family: 'ChosunGu', 'Noto Sans SC', sans-serif;
   }
 
