@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
-import { loadWordsFB } from "./redux/module/words";
+import { countWords, loadWordsFB } from "./redux/module/words";
 import Home from "./Home";
 import Add from "./Add";
 import Header from "./Header";
@@ -11,7 +11,10 @@ import theme from "./theme";
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(() => dispatch(loadWordsFB()), [dispatch]);
+  useEffect(() => {
+    dispatch(loadWordsFB());
+    dispatch(countWords(10));
+  }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>
       <div className="App">

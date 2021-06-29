@@ -1,10 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled, { css } from "styled-components";
 
-const WordCard = ({ word_obj }) => {
+const WordCard = forwardRef(({ word_obj }, ref) => {
   const { word, pinyin, definition, example_cn, example_ko } = word_obj;
   return (
-    <Card>
+    <Card ref={ref}>
       <WordSet>
         <Word>{word}</Word>
         <Pinyin>[{pinyin}]</Pinyin>
@@ -14,7 +14,7 @@ const WordCard = ({ word_obj }) => {
       <EXAMPLE>{example_ko}</EXAMPLE>
     </Card>
   );
-};
+});
 
 const Card = styled.article`
   ${({ theme }) => {

@@ -5,6 +5,8 @@ const words_db = firestore.collection("words");
 // 액션
 // const CHANGE_MODE = "words/CHANGE_MODE";
 const LOAD = "words/LOAD";
+const LOAD_MORE = "words/LOAD_MORE";
+const COUNT = "words/COUNT";
 const ADD = "word/ADD";
 const MODIFY = "word/MODIFY";
 // const COMPLETE = "word/COMPLETE";
@@ -14,26 +16,51 @@ const DELETE = "word/DELETE";
 
 const initialState = {
   word_list: [],
+  count: 0,
   //mode 추가 예정
 };
 
 // 액션함수
 
 export const loadWords = (words) => ({ type: LOAD, words });
+export const loadMoreWords = (words) => ({ type: LOAD_MORE, words });
 export const addWord = (word) => ({ type: ADD, word });
 export const modifyWord = (word) => ({ type: MODIFY, word });
 export const deleteWord = (id) => ({ type: DELETE, id });
+export const countWords = (num) => ({ type: COUNT, num });
+
+export const loadMoreWordsFB = (count) => {
+  return function (dispatch) {
+    let words = [];
+    let beforeNum = parseInt(count);
+    words_db
+      .orderBy("num")
+      .startAfter(beforeNum)
+      .limit(10)
+      .get()
+      .then((docs) => {
+        docs.forEach((doc) => {
+          if (doc.exists) {
+            words = [...words, { id: doc.id, ...doc.data() }];
+          }
+        });
+      })
+      .then((res) => dispatch(loadMoreWords(words)));
+  };
+};
 
 export const loadWordsFB = () => {
   return function (dispatch) {
     let words = [];
     words_db
+      .orderBy("num")
+      .limit(10)
       .get()
-      .then((docs) =>
+      .then((docs) => {
         docs.forEach((doc) => {
-          if (doc.exists) words = [...words, { id: doc.id, ...doc.data() }];
-        })
-      )
+          words = [...words, { id: doc.id, ...doc.data() }];
+        });
+      })
       .then((res) => dispatch(loadWords(words)));
   };
 };
@@ -54,16 +81,22 @@ export const addWordFB = (word) => {
 
 function words(state = initialState, action) {
   switch (action.type) {
+    case "words/COUNT":
+      return {
+        ...state,
+        count: state.count + parseInt(action.num),
+      };
     case "words/LOAD":
+      console.log("load");
       return {
         ...state,
         word_list: action.words,
       };
-    case "word/ADD":
-      let added_words = [...state.word_list, action.word];
+    case "words/LOAD_MORE":
+      console.log("loadmore");
       return {
         ...state,
-        word_list: added_words,
+        word_list: [...state.word_list, ...action.words],
       };
     case "word/MODIFY":
       let modified_words = state.word_list.map((word) =>
