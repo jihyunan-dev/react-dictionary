@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addWordFB } from "./redux/module/words";
 import CustomInput from "./CustomInput";
+import styled from "styled-components";
+import { RectangleBtn } from "./Btn";
 
 const Add = (props) => {
   const dispatch = useDispatch();
@@ -41,10 +43,14 @@ const Add = (props) => {
         <CustomInput title="의미" idText="input-def" ref={defRef} />
         <CustomInput title="예문" idText="input-ex-cn" ref={exCnRef} />
         <CustomInput title="해석" idText="input-ex-ko" ref={exKoRef} />
-        <button type="submit">저장하기</button>
+        <SaveBtn type="submit">저장하기</SaveBtn>
       </form>
     </div>
   );
 };
+
+const SaveBtn = styled.button`
+  ${RectangleBtn};
+`;
 
 export default Add;
