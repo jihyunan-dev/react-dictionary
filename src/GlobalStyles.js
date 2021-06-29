@@ -28,7 +28,6 @@ const GlobalStyles = createGlobalStyle`
   }
 
   button {
-    font-family: 'ChosunGu', 'Noto Sans SC', sans-serif;
     cursor: pointer;
   }
 
@@ -37,6 +36,7 @@ const GlobalStyles = createGlobalStyle`
   button {
     border: none;
     background-color: transparent;
+    font-family: 'ChosunGu', 'Noto Sans SC', sans-serif;
     outline: none;
   }
 `;
