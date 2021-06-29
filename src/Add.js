@@ -35,22 +35,49 @@ const Add = (props) => {
   };
 
   return (
-    <div>
-      <h2>단어 추가하기</h2>
-      <form onSubmit={submitWord}>
+    <Container>
+      <Subtitle>단어 추가하기</Subtitle>
+      <Form onSubmit={submitWord}>
         <CustomInput title="단어" idText="input-word" ref={wordRef} />
         <CustomInput title="병음" idText="input-pinyin" ref={pinyinRef} />
         <CustomInput title="의미" idText="input-def" ref={defRef} />
         <CustomInput title="예문" idText="input-ex-cn" ref={exCnRef} />
         <CustomInput title="해석" idText="input-ex-ko" ref={exKoRef} />
         <SaveBtn type="submit">저장하기</SaveBtn>
-      </form>
-    </div>
+      </Form>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 400px;
+  margin: 50px auto;
+
+  ${({ theme }) => theme.device.tablet} {
+    margin: 80px auto;
+  }
+`;
+
+const Subtitle = styled.h2`
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: ${({ theme }) => theme.colors.mainColor};
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
 const SaveBtn = styled.button`
   ${RectangleBtn};
+  align-self: center;
 `;
 
 export default Add;

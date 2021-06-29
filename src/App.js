@@ -29,10 +29,11 @@ function App() {
 }
 
 const Container = styled.div`
-  margin-top: 60px;
+  margin-top: 40px;
   padding: 0 30px;
 
   ${({ theme }) => theme.device.tablet} {
+    margin-top: 60px;
     padding: 0 50px;
   }
 
