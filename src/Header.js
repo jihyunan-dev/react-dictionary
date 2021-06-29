@@ -1,12 +1,15 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+import Img from "./img/title.svg";
 
 const Header = (props) => {
   return (
     <HeaderContainer>
       <Link to="/">
-        <Title>중국어 단어장</Title>
+        <Title>
+          <TitleImg src={Img} alt="중국어 단어장" />
+        </Title>
       </Link>
     </HeaderContainer>
   );
@@ -47,6 +50,15 @@ const Title = styled.h1`
       }
     `;
   }}
+`;
+
+const TitleImg = styled.img`
+  margin-top: 2px;
+  height: 28px;
+
+  ${({ theme }) => theme.device.tablet} {
+    height: 30px;
+  }
 `;
 
 export default Header;
