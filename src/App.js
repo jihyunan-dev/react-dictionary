@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { loadWordsFB } from "./redux/module/words";
 import Home from "./Home";
-import Add from "./Add";
+import FormPage from "./FormPage";
 import Header from "./Header";
 import GlobalStyles from "./GlobalStyles";
 import theme from "./theme";
@@ -20,10 +20,12 @@ function App() {
         <GlobalStyles />
         <Header />
         <Container>
-          <Route path="/" exact component={Home} />
-          <Route path="/word/add" component={Add} />
-          {/* <Route path="/word/:id/modify" component={Modify} />*/}
-          {/* 잘못된 url일 때 이동되도록 만들기 */}
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/word/add" component={FormPage} />
+            <Route path="/word/:id/modify" component={FormPage} />
+            {/* 잘못된 url일 때 이동되도록 만들기 */}
+          </Switch>
         </Container>
       </div>
     </ThemeProvider>

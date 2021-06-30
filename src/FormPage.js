@@ -5,7 +5,7 @@ import CustomInput from "./CustomInput";
 import styled from "styled-components";
 import { RectangleBtn } from "./Btn";
 
-const Add = (props) => {
+const FormPage = (props) => {
   const dispatch = useDispatch();
   const wordRef = useRef(null);
   const pinyinRef = useRef(null);
@@ -81,4 +81,4 @@ const SaveBtn = styled.button`
   align-self: center;
 `;
 
-export default Add;
+export default FormPage;
