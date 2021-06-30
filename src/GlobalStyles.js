@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
-import Background from "./img/double-bubble-outline.png";
+import Background from "./img/dot-grid.png";
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
