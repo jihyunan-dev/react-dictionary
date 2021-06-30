@@ -1,30 +1,45 @@
 import React, { forwardRef } from "react";
 import styled, { css } from "styled-components";
+import { TiTickOutline, TiTick, TiEdit, TiTimes } from "react-icons/ti";
 
 const WordCard = forwardRef(({ word_obj }, ref) => {
-  const { word, pinyin, definition, example_cn, example_ko } = word_obj;
+  const { word, pinyin, definition, example_cn, example_ko, completed } =
+    word_obj;
+
   return (
-    <Card ref={ref}>
-      <WordSet>
+    <Card completed={`${completed}`} ref={ref}>
+      <BtnBox>
+        <button>{completed ? <AfterCheck /> : <BeforeCheck />}</button>
+        <button>
+          <Edit completed={`${completed}`} />
+        </button>
+        <button>
+          <Delete completed={`${completed}`} />
+        </button>
+      </BtnBox>
+      <WordSet completed={`${completed}`}>
         <Word>{word}</Word>
         <Pinyin>[{pinyin}]</Pinyin>
       </WordSet>
-      <Definition>{definition}</Definition>
-      <EXAMPLE>{example_cn}</EXAMPLE>
-      <EXAMPLE>{example_ko}</EXAMPLE>
+      <Definition completed={`${completed}`}>{definition}</Definition>
+      <EXAMPLE completed={`${completed}`}>{example_cn}</EXAMPLE>
+      <EXAMPLE completed={`${completed}`}>{example_ko}</EXAMPLE>
     </Card>
   );
 });
 
 const Card = styled.article`
-  ${({ theme }) => {
+  ${({ completed, theme }) => {
     const { colors, device } = theme;
     return css`
+      position: relative;
       width: 100%;
       padding: 20px;
       border: 2px solid ${colors.mainColor};
       border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: ${completed === "false"
+        ? "rgba(255, 255, 255, 0.4)"
+        : colors.mainColor};
       transition: box-shadow 300ms ease-in-out;
 
       ${device.tablet} {
@@ -42,15 +57,23 @@ const Card = styled.article`
   }}
 `;
 
+const CardFontColor = css`
+  color: ${({ completed, theme }) =>
+    completed === "false" ? theme.colors.black : theme.colors.white};
+`;
+
 const WordSet = styled.div`
+  ${CardFontColor};
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
   margin-bottom: 10px;
 `;
 
 const Word = styled.h4`
   margin-right: 5px;
-  font-size: ${({ theme }) => theme.fontSizes.lg};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
   font-weight: 600;
 `;
 
@@ -59,14 +82,53 @@ const Pinyin = styled.span`
 `;
 
 const Definition = styled.p`
+  ${CardFontColor};
   margin-bottom: 10px;
   font-size: ${({ theme }) => theme.fontSizes.md};
 `;
 
 const EXAMPLE = styled.div`
   margin-top: 5px;
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${({ completed, theme }) =>
+    completed === "false" ? theme.colors.blue : theme.colors.white};
   font-size: ${({ theme }) => theme.fontSizes.sm};
+`;
+
+const BtnBox = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+
+  & > button {
+    padding: 3px;
+  }
+`;
+
+const Icons = css`
+  color: ${(props) =>
+    props.completed === "false"
+      ? props.theme.colors.mainColor
+      : props.theme.colors.white};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+`;
+
+const BeforeCheck = styled(TiTickOutline)`
+  color: ${({ theme }) => theme.colors.mainColor};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+`;
+const AfterCheck = styled(TiTick)`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+`;
+
+const Edit = styled(TiEdit)`
+  ${Icons};
+`;
+
+const Delete = styled(TiTimes)`
+  ${Icons};
 `;
 
 export default WordCard;
