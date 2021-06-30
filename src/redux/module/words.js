@@ -91,6 +91,13 @@ export const updateCompleteFB = (word) => {
   };
 };
 
+export const deleteWordFB = (id) => {
+  return function (dispatch) {
+    words_db.doc(id).delete();
+    dispatch(deleteWord(id));
+  };
+};
+
 // 리듀서
 
 function words(state = initialState, action) {

@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import { TiTickOutline, TiTick, TiEdit, TiTimes } from "react-icons/ti";
-import { updateCompleteFB } from "./redux/module/words";
+import { deleteWordFB, updateCompleteFB } from "./redux/module/words";
 
 const WordCard = forwardRef(({ word_obj }, ref) => {
   const { word, pinyin, definition, example_cn, example_ko, completed, id } =
@@ -14,6 +14,10 @@ const WordCard = forwardRef(({ word_obj }, ref) => {
     dispatch(updateCompleteFB(word));
   };
 
+  const deleteCard = (id) => {
+    dispatch(deleteWordFB(id));
+  };
+
   return (
     <Card completed={`${completed}`} ref={ref}>
       <BtnBox>
@@ -23,7 +27,7 @@ const WordCard = forwardRef(({ word_obj }, ref) => {
         <button>
           <Edit completed={`${completed}`} />
         </button>
-        <button>
+        <button onClick={() => deleteCard(id)}>
           <Delete completed={`${completed}`} />
         </button>
       </BtnBox>
