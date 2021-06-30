@@ -16,13 +16,17 @@ const FormPage = (props) => {
   const exCnRef = useRef(null);
   const exKoRef = useRef(null);
 
-  const submitWord = (e) => {
-    e.preventDefault();
+  const getFormData = () => {
     const word = wordRef.current.value.trim();
     const pinyin = pinyinRef.current.value.trim();
     const definition = defRef.current.value.trim();
     const example_cn = exCnRef.current.value.trim();
     const example_ko = exKoRef.current.value.trim();
+
+    if (!word || !pinyin || !definition || !example_cn || !example_ko) {
+      alert("아직 입력하지 않은 항목이 있습니다.");
+      return;
+    }
 
     const word_obj = {
       word,
@@ -30,31 +34,27 @@ const FormPage = (props) => {
       definition,
       example_cn,
       example_ko: example_ko ? example_ko : null,
-      date: Date.now(),
-      completed: false,
     };
 
-    dispatch(addWordFB(word_obj));
+    return word_obj;
+  };
+
+  const submitWord = (e) => {
+    e.preventDefault();
+
+    const word_obj = getFormData();
+    const new_word_obj = { ...word_obj, date: Date.now(), completed: false };
+
+    dispatch(addWordFB(new_word_obj));
     props.history.push("/");
   };
 
   const updateWord = (e) => {
     e.preventDefault();
-    const word = wordRef.current.value.trim();
-    const pinyin = pinyinRef.current.value.trim();
-    const definition = defRef.current.value.trim();
-    const example_cn = exCnRef.current.value.trim();
-    const example_ko = exKoRef.current.value.trim();
 
-    const word_obj = {
-      word,
-      pinyin: pinyin ? pinyin : null,
-      definition,
-      example_cn,
-      example_ko: example_ko ? example_ko : null,
-    };
-
+    const word_obj = getFormData();
     dispatch(modifyWordFB(word_obj, data.id));
+
     props.history.push("/");
   };
 
