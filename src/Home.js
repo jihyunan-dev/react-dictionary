@@ -5,16 +5,14 @@ import styled from "styled-components";
 import { RoundBtn } from "./Btn";
 import WordCard from "./WordCard";
 import { TiPlus } from "react-icons/ti";
-import { countWords, loadMoreWordsFB } from "./redux/module/words";
+import { loadMoreWordsFB } from "./redux/module/words";
 
 const Home = () => {
   const words = useSelector((state) => state.words.word_list);
-  const count = useSelector((state) => state.words.count);
+  const lastValue = useSelector((state) => state.words.lastValue);
 
   const dispatch = useDispatch();
   const [target, setTarget] = useState(null);
-
-  console.log(target);
 
   useEffect(() => {
     let options = {
@@ -25,14 +23,10 @@ const Home = () => {
       if (!entries.isIntersecting) {
         return;
       } else {
-        console.log("ff");
-        await dispatch(loadMoreWordsFB(count));
-        await dispatch(countWords(10));
+        await dispatch(loadMoreWordsFB(lastValue));
         observer.unobserve(entries.target);
       }
     };
-
-    console.log(target);
 
     const io = new IntersectionObserver(handleIntersection, options);
     if (target) io.observe(target);

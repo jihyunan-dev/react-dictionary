@@ -16,25 +16,29 @@ const DELETE = "word/DELETE";
 
 const initialState = {
   word_list: [],
-  count: 0,
+  lastValue: 0,
   //mode 추가 예정
 };
 
 // 액션함수
 
-export const loadWords = (words) => ({ type: LOAD, words });
+export const loadWords = (words, lastValue) => ({
+  type: LOAD,
+  words,
+  lastValue,
+});
 export const loadMoreWords = (words) => ({ type: LOAD_MORE, words });
 export const addWord = (word) => ({ type: ADD, word });
 export const modifyWord = (word) => ({ type: MODIFY, word });
 export const deleteWord = (id) => ({ type: DELETE, id });
-export const countWords = (num) => ({ type: COUNT, num });
 
-export const loadMoreWordsFB = (count) => {
+export const loadMoreWordsFB = (value) => {
   return function (dispatch) {
     let words = [];
-    let beforeNum = parseInt(count);
+    let beforeNum = parseInt(value);
+    let lastValue;
     words_db
-      .orderBy("num")
+      .orderBy("date", "desc")
       .startAfter(beforeNum)
       .limit(10)
       .get()
@@ -42,26 +46,29 @@ export const loadMoreWordsFB = (count) => {
         docs.forEach((doc) => {
           if (doc.exists) {
             words = [...words, { id: doc.id, ...doc.data() }];
+            lastValue = doc.data().date;
           }
         });
       })
-      .then((res) => dispatch(loadMoreWords(words)));
+      .then((res) => dispatch(loadMoreWords(words), lastValue));
   };
 };
 
 export const loadWordsFB = () => {
   return function (dispatch) {
     let words = [];
+    let lastValue;
     words_db
-      .orderBy("num")
+      .orderBy("date", "desc")
       .limit(10)
       .get()
       .then((docs) => {
         docs.forEach((doc) => {
           words = [...words, { id: doc.id, ...doc.data() }];
+          lastValue = doc.data().date;
         });
       })
-      .then((res) => dispatch(loadWords(words)));
+      .then((res) => dispatch(loadWords(words, lastValue)));
   };
 };
 
@@ -81,22 +88,17 @@ export const addWordFB = (word) => {
 
 function words(state = initialState, action) {
   switch (action.type) {
-    case "words/COUNT":
-      return {
-        ...state,
-        count: state.count + parseInt(action.num),
-      };
     case "words/LOAD":
-      console.log("load");
       return {
         ...state,
         word_list: action.words,
+        lastValue: action.lastValue,
       };
     case "words/LOAD_MORE":
-      console.log("loadmore");
       return {
         ...state,
         word_list: [...state.word_list, ...action.words],
+        lastValue: action.lastValue,
       };
     case "word/MODIFY":
       let modified_words = state.word_list.map((word) =>

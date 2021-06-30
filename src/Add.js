@@ -27,7 +27,8 @@ const Add = (props) => {
       definition,
       example_cn,
       example_ko: example_ko ? example_ko : null,
-      date: new Date(),
+      date: Date.now(),
+      completed: false,
     };
 
     dispatch(addWordFB(word_obj));
