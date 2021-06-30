@@ -100,6 +100,12 @@ function words(state = initialState, action) {
         word_list: [...state.word_list, ...action.words],
         lastValue: action.lastValue,
       };
+    case "word/ADD":
+      let added_words = [...state.word_list, action.word];
+      return {
+        ...state,
+        word_list: added_words,
+      };
     case "word/MODIFY":
       let modified_words = state.word_list.map((word) =>
         word.id === action.word.id ? action.word : word
