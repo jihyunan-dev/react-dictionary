@@ -26,7 +26,12 @@ export const loadWords = (words, lastValue) => ({
   words,
   lastValue,
 });
-export const loadMoreWords = (words) => ({ type: LOAD_MORE, words });
+
+export const loadMoreWords = (words, lastValue) => ({
+  type: LOAD_MORE,
+  words,
+  lastValue,
+});
 export const addWord = (word) => ({ type: ADD, word });
 export const updateComplete = (id) => ({ type: COMPLETE, id });
 export const modifyWord = (word) => ({ type: MODIFY, word });
@@ -68,7 +73,7 @@ export const loadMoreWordsFB = (value) => {
           }
         });
       })
-      .then((res) => dispatch(loadMoreWords(words), lastValue));
+      .then((res) => dispatch(loadMoreWords(words, lastValue)));
   };
 };
 
