@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import { TiTickOutline, TiTick, TiEdit, TiTimes } from "react-icons/ti";
-import { updateComplete } from "./redux/module/words";
+import { updateCompleteFB } from "./redux/module/words";
 
 const WordCard = forwardRef(({ word_obj }, ref) => {
   const { word, pinyin, definition, example_cn, example_ko, completed, id } =
@@ -10,14 +10,14 @@ const WordCard = forwardRef(({ word_obj }, ref) => {
 
   const dispatch = useDispatch();
 
-  const toggleCheck = (id) => {
-    dispatch(updateComplete(id));
+  const toggleCheck = (word) => {
+    dispatch(updateCompleteFB(word));
   };
 
   return (
     <Card completed={`${completed}`} ref={ref}>
       <BtnBox>
-        <button onClick={() => toggleCheck(id)}>
+        <button onClick={() => toggleCheck(word_obj)}>
           {completed ? <AfterCheck /> : <BeforeCheck />}
         </button>
         <button>

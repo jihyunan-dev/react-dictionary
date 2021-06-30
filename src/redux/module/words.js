@@ -84,6 +84,13 @@ export const addWordFB = (word) => {
   };
 };
 
+export const updateCompleteFB = (word) => {
+  return function (dispatch) {
+    words_db.doc(word.id).update({ completed: !word.completed });
+    dispatch(updateComplete(word.id));
+  };
+};
+
 // 리듀서
 
 function words(state = initialState, action) {
