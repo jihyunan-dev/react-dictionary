@@ -6,10 +6,9 @@ const words_db = firestore.collection("words");
 // const CHANGE_MODE = "words/CHANGE_MODE";
 const LOAD = "words/LOAD";
 const LOAD_MORE = "words/LOAD_MORE";
-const COUNT = "words/COUNT";
 const ADD = "word/ADD";
 const MODIFY = "word/MODIFY";
-// const COMPLETE = "word/COMPLETE";
+const COMPLETE = "word/COMPLETE";
 const DELETE = "word/DELETE";
 
 // 초기값
@@ -29,8 +28,27 @@ export const loadWords = (words, lastValue) => ({
 });
 export const loadMoreWords = (words) => ({ type: LOAD_MORE, words });
 export const addWord = (word) => ({ type: ADD, word });
+export const updateComplete = (id) => ({ type: COMPLETE, id });
 export const modifyWord = (word) => ({ type: MODIFY, word });
 export const deleteWord = (id) => ({ type: DELETE, id });
+
+export const loadWordsFB = () => {
+  return function (dispatch) {
+    let words = [];
+    let lastValue;
+    words_db
+      .orderBy("date", "desc")
+      .limit(10)
+      .get()
+      .then((docs) => {
+        docs.forEach((doc) => {
+          words = [...words, { id: doc.id, ...doc.data() }];
+          lastValue = doc.data().date;
+        });
+      })
+      .then((res) => dispatch(loadWords(words, lastValue)));
+  };
+};
 
 export const loadMoreWordsFB = (value) => {
   return function (dispatch) {
@@ -51,24 +69,6 @@ export const loadMoreWordsFB = (value) => {
         });
       })
       .then((res) => dispatch(loadMoreWords(words), lastValue));
-  };
-};
-
-export const loadWordsFB = () => {
-  return function (dispatch) {
-    let words = [];
-    let lastValue;
-    words_db
-      .orderBy("date", "desc")
-      .limit(10)
-      .get()
-      .then((docs) => {
-        docs.forEach((doc) => {
-          words = [...words, { id: doc.id, ...doc.data() }];
-          lastValue = doc.data().date;
-        });
-      })
-      .then((res) => dispatch(loadWords(words, lastValue)));
   };
 };
 
@@ -105,6 +105,14 @@ function words(state = initialState, action) {
       return {
         ...state,
         word_list: added_words,
+      };
+    case "word/COMPLETE":
+      const new_word_list = state.word_list.map((word) =>
+        word.id === action.id ? { ...word, completed: !word.completed } : word
+      );
+      return {
+        ...state,
+        word_list: new_word_list,
       };
     case "word/MODIFY":
       let modified_words = state.word_list.map((word) =>
