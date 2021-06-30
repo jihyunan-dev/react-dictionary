@@ -25,7 +25,7 @@ const FormPage = (props) => {
 
     if (!word || !pinyin || !definition || !example_cn || !example_ko) {
       alert("아직 입력하지 않은 항목이 있습니다.");
-      return;
+      return false;
     }
 
     const word_obj = {
@@ -43,6 +43,8 @@ const FormPage = (props) => {
     e.preventDefault();
 
     const word_obj = getFormData();
+    if (!word_obj) return;
+
     const new_word_obj = { ...word_obj, date: Date.now(), completed: false };
 
     dispatch(addWordFB(new_word_obj));
@@ -53,6 +55,8 @@ const FormPage = (props) => {
     e.preventDefault();
 
     const word_obj = getFormData();
+    if (!word_obj) return;
+
     dispatch(modifyWordFB(word_obj, data.id));
 
     props.history.push("/");
