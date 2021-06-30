@@ -96,6 +96,14 @@ export const updateCompleteFB = (word) => {
   };
 };
 
+export const modifyWordFB = (word, id) => {
+  return function (dispatch) {
+    words_db.doc(id).update(word);
+    const new_word = { ...word, id };
+    dispatch(modifyWord(new_word));
+  };
+};
+
 export const deleteWordFB = (id) => {
   return function (dispatch) {
     words_db.doc(id).delete();
@@ -135,7 +143,7 @@ function words(state = initialState, action) {
       };
     case "word/MODIFY":
       let modified_words = state.word_list.map((word) =>
-        word.id === action.word.id ? action.word : word
+        word.id === action.word.id ? { ...word, ...action.word } : word
       );
       return {
         ...state,

@@ -23,7 +23,7 @@ function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/word/add" component={FormPage} />
-            <Route path="/word/:id/modify" component={FormPage} />
+            <Route path="/word/:id/edit" component={FormPage} />
             {/* 잘못된 url일 때 이동되도록 만들기 */}
           </Switch>
         </Container>

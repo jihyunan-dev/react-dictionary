@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import { TiTickOutline, TiTick, TiEdit, TiTimes } from "react-icons/ti";
@@ -24,9 +25,14 @@ const WordCard = forwardRef(({ word_obj }, ref) => {
         <button onClick={() => toggleCheck(word_obj)}>
           {completed ? <AfterCheck /> : <BeforeCheck />}
         </button>
-        <button>
+        <Link
+          to={{
+            pathname: `/word/${id}/edit`,
+            state: word_obj,
+          }}
+        >
           <Edit completed={`${completed}`} />
-        </button>
+        </Link>
         <button onClick={() => deleteCard(id)}>
           <Delete completed={`${completed}`} />
         </button>

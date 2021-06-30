@@ -1,12 +1,23 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import styled from "styled-components";
 
 const CustomInput = forwardRef((props, ref) => {
-  const { title, idText } = props;
+  const { title, idText, currentValue } = props;
+
+  const [value, setValue] = useState(currentValue ? currentValue : "");
+
+  const inputChange = (e) => setValue(e.target.value);
+
   return (
     <Container>
       <Label htmlFor={idText}>{title}</Label>
-      <Input type="text" id={idText} ref={ref} />
+      <Input
+        type="text"
+        id={idText}
+        ref={ref}
+        onChange={inputChange}
+        value={value}
+      />
     </Container>
   );
 });
