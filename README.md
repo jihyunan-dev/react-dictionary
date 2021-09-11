@@ -3,6 +3,19 @@
 
 <img src="https://user-images.githubusercontent.com/72782239/132444970-3e6cf19c-6b40-4004-9c8d-4403145745ef.jpg" width="500px" alt="중국어 단어장"/>
 
+<br />
+
+## 👩🏻‍🎓 개요
+- 개인(1인) 프로젝트
+- 일정 : 2021.06.28 ~ 2021.07.01
+- 대표 사용기술 및 라이브러리 : React, Redux, styled-components, firebase, AWS S3, AWS Route53
+
+<br />
+
+## 🔗 Link
+중국어 단어장 바로가기 : http://hanyui-dict.shop
+
+<br />
 
 ## 💪🏻 목표
 
@@ -35,7 +48,3 @@
 <br>
 
 ## 📜 계획 - <a href="https://github.com/jihyunan-dev/react-dictionary/wiki">WIKI 바로가기</a>
-
-## ⏰ 일정
-
-: 2021.06.28 ~ 2021.07.01
