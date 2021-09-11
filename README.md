@@ -34,6 +34,8 @@
 
 <br>
 
+## 📜 계획 - <a href="https://github.com/jihyunan-dev/react-dictionary/wiki">WIKI 바로가기</a>
+
 ## ⏰ 일정
 
-: 2021.06.28 ~ 2021.07.01(자정까지 제출)
+: 2021.06.28 ~ 2021.07.01
