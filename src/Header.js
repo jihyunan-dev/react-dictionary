@@ -1,6 +1,11 @@
+/**
+ * Header.js
+ */
+
 import React from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+
 import Img from "./img/title.svg";
 
 const Header = (props) => {

@@ -1,6 +1,6 @@
-import thunk from "redux-thunk";
-import { createBrowserHistory } from "history";
 import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createBrowserHistory } from "history";
+import thunk from "redux-thunk";
 import words from "./module/words";
 
 export const history = createBrowserHistory();

@@ -1,9 +1,13 @@
+/**
+ * words.js : ducks 패턴을 사용한 words 모듈 파일
+ * 기능 : 단어 불러오기(무한스크롤), 등록, 암기/미암기 토글, 수정, 삭제
+ */
+
 import { firestore } from "../../firebase";
 
 const words_db = firestore.collection("words");
 
 // 액션
-// const CHANGE_MODE = "words/CHANGE_MODE";
 const LOAD = "words/LOAD";
 const LOAD_MORE = "words/LOAD_MORE";
 const ADD = "word/ADD";
@@ -12,15 +16,12 @@ const COMPLETE = "word/COMPLETE";
 const DELETE = "word/DELETE";
 
 // 초기값
-
 const initialState = {
   word_list: [],
   lastValue: 0,
-  //mode 추가 예정
 };
 
 // 액션함수
-
 export const loadWords = (words, lastValue) => ({
   type: LOAD,
   words,
@@ -37,32 +38,36 @@ export const updateComplete = (id) => ({ type: COMPLETE, id });
 export const modifyWord = (word) => ({ type: MODIFY, word });
 export const deleteWord = (id) => ({ type: DELETE, id });
 
+// thunk
+
+// firebase에서 단어들을 처음 불러오는 함수 (특이사항: 무한스크롤 적용을 위해 10개만 끊어서 가져옴)
 export const loadWordsFB = () => {
   return function (dispatch) {
     let words = [];
     let lastValue;
     words_db
-      .orderBy("date", "desc")
-      .limit(10)
+      .orderBy("date", "desc") // date라는 key를 기준으로 내림차순 정렬
+      .limit(10) // 10개만
       .get()
       .then((docs) => {
         docs.forEach((doc) => {
           words = [...words, { id: doc.id, ...doc.data() }];
-          lastValue = doc.data().date;
+          lastValue = doc.data().date; // 마지막으로 가져온 date값(다음 값을 가져오기 위해 저장)
         });
       })
       .then((res) => dispatch(loadWords(words, lastValue)));
   };
 };
 
+// firebase에서 다음 단어들을 불러오는 함수
 export const loadMoreWordsFB = (value) => {
   return function (dispatch) {
     let words = [];
-    let beforeNum = parseInt(value);
+    let beforeNum = parseInt(value); // 가장 마지막으로 가져온 date값을 의미
     let lastValue;
     words_db
       .orderBy("date", "desc")
-      .startAfter(beforeNum)
+      .startAfter(beforeNum) // 가장 마지막으로 가져온 값 다음부터 시작
       .limit(10)
       .get()
       .then((docs) => {
@@ -77,6 +82,7 @@ export const loadMoreWordsFB = (value) => {
   };
 };
 
+// 새로운 단어 등록 함수
 export const addWordFB = (word) => {
   return function (dispatch) {
     let new_word;
@@ -89,6 +95,7 @@ export const addWordFB = (word) => {
   };
 };
 
+// 암기/미암기 토글 함수
 export const updateCompleteFB = (word) => {
   return function (dispatch) {
     words_db.doc(word.id).update({ completed: !word.completed });
@@ -96,6 +103,7 @@ export const updateCompleteFB = (word) => {
   };
 };
 
+// 단어 내용 변경 함수
 export const modifyWordFB = (word, id) => {
   return function (dispatch) {
     words_db.doc(id).update(word);
@@ -104,6 +112,7 @@ export const modifyWordFB = (word, id) => {
   };
 };
 
+// 단어 삭제 함수
 export const deleteWordFB = (id) => {
   return function (dispatch) {
     words_db.doc(id).delete();
@@ -112,7 +121,6 @@ export const deleteWordFB = (id) => {
 };
 
 // 리듀서
-
 function words(state = initialState, action) {
   switch (action.type) {
     case "words/LOAD":

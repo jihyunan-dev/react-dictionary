@@ -1,11 +1,20 @@
+/**
+ * FormPage.js : 단어를 새로 등록하거나 수정하는 경우 사용하는 Form 컴포넌트입니다.
+ */
+
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
-import { addWordFB, modifyWordFB } from "./redux/module/words";
-import CustomInput from "./CustomInput";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+
+// components & element
+import CustomInput from "./CustomInput";
 import { RectangleBtn } from "./Btn";
 
+// redux
+import { addWordFB, modifyWordFB } from "./redux/module/words";
+
 const FormPage = (props) => {
+  // WordCard.js 43번째 줄 - Link에서 state로 값을 넘길 수 있습니다.
   const data = props.location.state;
 
   const dispatch = useDispatch();
@@ -16,6 +25,12 @@ const FormPage = (props) => {
   const exCnRef = useRef(null);
   const exKoRef = useRef(null);
 
+  /**
+   * getFormData 함수
+   *  - 입력된 모든 값을 가져옴
+   *  - 유효성 검사
+   *  - 모든 값들이 들어있는 하나의 객체를 반환
+   */
   const getFormData = () => {
     const word = wordRef.current.value.trim();
     const pinyin = pinyinRef.current.value.trim();
@@ -23,34 +38,39 @@ const FormPage = (props) => {
     const example_cn = exCnRef.current.value.trim();
     const example_ko = exKoRef.current.value.trim();
 
+    // 유효성 체크
     if (!word || !pinyin || !definition || !example_cn || !example_ko) {
       alert("아직 입력하지 않은 항목이 있습니다.");
       return false;
     }
 
+    // 반환할 object
     const word_obj = {
       word,
-      pinyin: pinyin ? pinyin : null,
+      pinyin,
       definition,
       example_cn,
-      example_ko: example_ko ? example_ko : null,
+      example_ko,
     };
 
     return word_obj;
   };
 
+  // 단어를 등록하는 함수
   const submitWord = (e) => {
     e.preventDefault();
 
     const word_obj = getFormData();
     if (!word_obj) return;
 
+    // firebase에서 시간순으로 불러올 수 있도록 date 값을 추가, 암기/미암기 상태를 저장할 수 있도록 completed 값 추가
     const new_word_obj = { ...word_obj, date: Date.now(), completed: false };
 
     dispatch(addWordFB(new_word_obj));
     props.history.push("/");
   };
 
+  // 단어를 수정하는 함수
   const updateWord = (e) => {
     e.preventDefault();
 
@@ -58,7 +78,6 @@ const FormPage = (props) => {
     if (!word_obj) return;
 
     dispatch(modifyWordFB(word_obj, data.id));
-
     props.history.push("/");
   };
 

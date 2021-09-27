@@ -1,10 +1,19 @@
+/**
+ * Home.js : 메인 페이지
+ * 특이사항 : Intersection Observer를 이용한 무한 스크롤(참고만 해주세요✨)
+ */
+
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { RoundBtn } from "./Btn";
-import WordCard from "./WordCard";
 import { TiPlus } from "react-icons/ti";
+
+// components & elements
+import WordCard from "./WordCard";
+import { RoundBtn } from "./Btn";
+
+// redux
 import { loadMoreWordsFB } from "./redux/module/words";
 
 const Home = () => {
@@ -12,13 +21,17 @@ const Home = () => {
   const lastValue = useSelector((state) => state.words.lastValue);
 
   const dispatch = useDispatch();
-  const [target, setTarget] = useState(null);
+
+  // Intersection Observer API를 이용하여 무한 스크롤 구현 : MDN (https://developer.mozilla.org/ko/docs/Web/API/Intersection_Observer_API)
+  const [target, setTarget] = useState(null); // 구독할 대상 (target을 지켜보고 있다가 이 target이 정해진 threshold 비율만큼 보이면 지정한 행동을 합니다. )
 
   useEffect(() => {
+    // 새롭게 생성할 observer에 전달될 설정값
     let options = {
       threshold: "1",
     };
 
+    // 새롭게 생성할 observer가 수행할 행동 정의
     let handleIntersection = async ([entries], observer) => {
       if (!entries.isIntersecting) {
         return;
@@ -28,6 +41,7 @@ const Home = () => {
       }
     };
 
+    // 새로운 observer 생성
     const io = new IntersectionObserver(handleIntersection, options);
     if (target) io.observe(target);
 
@@ -38,6 +52,7 @@ const Home = () => {
     <div>
       <Cards>
         {words.map((word, idx) => {
+          // 새로 불어온 데이터 중 가장 마지막 값을 찾아 target으로 설정함 (마지막 데이터를 구독, 데이터를 새로 불러올 때마다 target이 바뀜)
           const lastItem = idx === words.length - 1;
           return (
             <WordCard

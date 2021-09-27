@@ -1,20 +1,32 @@
+/**
+ * WordCard.js : 단어 카드 하나를 의미하는 컴포넌트
+ */
+
 import React, { forwardRef } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
+// react-icons 라이브러리 사용
 import { TiTickOutline, TiTick, TiEdit, TiTimes } from "react-icons/ti";
+
+// redux
 import { deleteWordFB, updateCompleteFB } from "./redux/module/words";
 
+// 상위 컴포넌트에서 하위 컴포넌트의 리액트 요소를 참조(ref)하기 위해 forwardRef 사용
 const WordCard = forwardRef(({ word_obj }, ref) => {
+  // 구조 분해 할당을 사용하면 변수를 좀 더 편하게 쓸 수 있습니다:)
   const { word, pinyin, definition, example_cn, example_ko, completed, id } =
     word_obj;
 
   const dispatch = useDispatch();
 
+  // 암기/미암기 상태를 toggle 하는 함수
   const toggleCheck = (word) => {
     dispatch(updateCompleteFB(word));
   };
 
+  // 카드 삭제 함수
   const deleteCard = (id) => {
     dispatch(deleteWordFB(id));
   };
@@ -42,8 +54,8 @@ const WordCard = forwardRef(({ word_obj }, ref) => {
         <Pinyin>[{pinyin}]</Pinyin>
       </WordSet>
       <Definition completed={`${completed}`}>{definition}</Definition>
-      <EXAMPLE completed={`${completed}`}>{example_cn}</EXAMPLE>
-      <EXAMPLE completed={`${completed}`}>{example_ko}</EXAMPLE>
+      <Example completed={`${completed}`}>{example_cn}</Example>
+      <Example completed={`${completed}`}>{example_ko}</Example>
     </Card>
   );
 });
@@ -77,13 +89,15 @@ const Card = styled.article`
   }}
 `;
 
+// styled-components의 css를 사용하면 여러 곳에서 해당 스타일 코드를 재사용하기 쉽습니다:) : https://styled-components.com/docs/api#css
 const CardFontColor = css`
   color: ${({ completed, theme }) =>
     completed === "false" ? theme.colors.black : theme.colors.white};
 `;
 
 const WordSet = styled.div`
-  ${CardFontColor};
+  // 위에서 정의한 CardFontColor 재사용
+  ${CardFontColor}
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -107,7 +121,7 @@ const Definition = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.md};
 `;
 
-const EXAMPLE = styled.div`
+const Example = styled.div`
   margin-top: 5px;
   color: ${({ completed, theme }) =>
     completed === "false" ? theme.colors.blue : theme.colors.white};
