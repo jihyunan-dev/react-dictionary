@@ -28,6 +28,12 @@ const WordCard = forwardRef(({ word_obj }, ref) => {
 
   // 카드 삭제 함수
   const deleteCard = (id) => {
+    const password = prompt("비밀번호를 입력해주세요");
+    // 삭제를 막기 위해 임시로 막아두었습니다.
+    if (password !== id) {
+      alert("비밀번호가 틀려 삭제할 수 없습니다.");
+      return;
+    }
     dispatch(deleteWordFB(id));
   };
 
