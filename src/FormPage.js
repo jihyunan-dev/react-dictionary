@@ -90,30 +90,35 @@ const FormPage = (props) => {
           idText="input-word"
           ref={wordRef}
           currentValue={data && data.word}
+          limit={8}
         />
         <CustomInput
           title="병음"
           idText="input-pinyin"
           ref={pinyinRef}
           currentValue={data && data.pinyin}
+          limit={16}
         />
         <CustomInput
           title="의미"
           idText="input-def"
           ref={defRef}
           currentValue={data && data.definition}
+          limit={20}
         />
         <CustomInput
           title="예문"
           idText="input-ex-cn"
           ref={exCnRef}
           currentValue={data && data.example_cn}
+          limit={30}
         />
         <CustomInput
           title="해석"
           idText="input-ex-ko"
           ref={exKoRef}
           currentValue={data && data.example_ko}
+          limit={30}
         />
         <SaveBtn type="submit">{data ? "수정하기" : "저장하기"}</SaveBtn>
       </Form>

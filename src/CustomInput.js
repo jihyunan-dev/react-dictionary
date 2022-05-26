@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 // 상위 컴포넌트에서 하위 컴포넌트의 리액트 요소를 참조(ref)하기 위해 forwardRef 사용
 const CustomInput = forwardRef((props, ref) => {
-  const { title, idText, currentValue } = props;
+  const { title, idText, currentValue, limit = 8 } = props;
 
   // 수정인 경우에는 기존 값을, 새로 등록하는 경우에는 빈 문자열을 value로 함
   const [value, setValue] = useState(currentValue ? currentValue : "");
@@ -24,6 +24,7 @@ const CustomInput = forwardRef((props, ref) => {
         ref={ref}
         onChange={inputChange}
         value={value}
+        maxLength={limit}
       />
     </Container>
   );
