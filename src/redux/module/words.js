@@ -137,7 +137,6 @@ function words(state = initialState, action) {
       };
     case "word/ADD":
       let added_words = [action.word, ...state.word_list];
-      console.log(added_words);
       return {
         ...state,
         word_list: added_words,
