@@ -13,7 +13,7 @@
 <br />
 
 ## 🔗 Link
-중국어 단어장 바로가기 : http://hanyui-dict.shop
+중국어 단어장 바로가기 : https://astonishing-cascaron-c34802.netlify.app/
 
 <br />
 
